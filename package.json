@@ -1,0 +1,32 @@
+{
+  "name": "eslint-security-poc",
+  "version": "1.0.0",
+  "description": "POC para testar plugins de segurança do ESLint com TypeScript",
+  "main": "index.ts",
+  "scripts": {
+    "lint": "eslint . --ext .ts,.js",
+    "lint:backend": "eslint examples/backend-vulnerabilities.ts",
+    "lint:complex": "eslint examples/complex-code.ts",
+    "lint:frontend": "eslint examples/frontend-xss.ts",
+    "lint:api": "eslint examples/api-security.ts",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": ["eslint", "security", "poc", "typescript"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-security": "^2.1.1",
+    "eslint-plugin-sonarjs": "^0.24.0",
+    "eslint-plugin-no-unsanitized": "^4.0.2",
+    "eslint-plugin-security-node": "^1.1.4",
+    "express": "^4.18.2",
+    "express-session": "^1.18.0",
+    "typescript": "^5.3.3"
+  }
+}

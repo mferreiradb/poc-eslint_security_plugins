@@ -1,0 +1,4 @@
+# Adicione ao .gitignore se necessário
+node_modules/
+.eslintcache
+*.log
