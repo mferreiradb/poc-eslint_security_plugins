@@ -4,6 +4,8 @@
  * Este arquivo mostra como prevenir ataques XSS no frontend
  */
 
+import DOMPurify from 'dompurify';
+
 // ✅ SOLUÇÃO 1: Use textContent ao invés de innerHTML
 function displayUserCommentSafe(comment: string): void {
   const div = document.getElementById('comment-section');
