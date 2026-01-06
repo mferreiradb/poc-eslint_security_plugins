@@ -4,6 +4,8 @@
 //  * Plugin da Mozilla focado em prevenir Cross-Site Scripting (XSS)
 //  */
 
+// import DOMPurify from 'dompurify';
+
 // // ❌ VULNERABILIDADE: innerHTML com dados não sanitizados
 // // no-unsanitized/property
 // function displayUserComment(comment: string): void {
@@ -94,12 +96,8 @@
 //   const div = document.getElementById('comment-section');
 //   if (!div) return;
   
-//   // Assumindo que DOMPurify está carregado
-//   if (typeof DOMPurify !== 'undefined') {
-//     div.innerHTML = DOMPurify.sanitize(comment); // ✅ Seguro com sanitização
-//   } else {
-//     div.textContent = comment; // Fallback seguro
-//   }
+//   // ✅ SEGURO: Usando DOMPurify para sanitizar antes de innerHTML
+//   div.innerHTML = DOMPurify.sanitize(comment); // ✅ Seguro com sanitização
 // }
 
 // // ❌ VULNERABILIDADE: jQuery html() com dados não sanitizados
