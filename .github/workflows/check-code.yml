@@ -33,11 +33,11 @@ jobs:
           fetch-depth: 0  # Necessário para análise completa do histórico
       
       - name: Executar Gitleaks
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@v4
+        with:
+          config-path: gitleaks/.gitleaks.toml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_CONFIG: gitleaks/.gitleaks.toml
-          GITLEAKS_ENABLE_COMMENTS: true
       
       - name: Upload dos resultados (se houver vulnerabilidades)
         if: failure()
