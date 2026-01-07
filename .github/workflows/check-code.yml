@@ -32,12 +32,16 @@ jobs:
         with:
           fetch-depth: 0  # Necessário para análise completa do histórico
       
+      - name: Instalar Gitleaks
+        run: |
+          wget https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_linux_x64.tar.gz
+          tar -xzf gitleaks_8.18.1_linux_x64.tar.gz
+          sudo mv gitleaks /usr/local/bin/
+          gitleaks version
+      
       - name: Executar Gitleaks
-        uses: gitleaks/gitleaks-action@v4
-        with:
-          config-path: gitleaks/.gitleaks.toml
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gitleaks detect --config=gitleaks/.gitleaks.toml --verbose --exit-code=1 --report-path=gitleaks-report.json --report-format=json
       
       - name: Upload dos resultados (se houver vulnerabilidades)
         if: failure()
