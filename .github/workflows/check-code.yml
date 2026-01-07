@@ -1,7 +1,5 @@
-# GitHub Actions - Gitleaks Security Scan
-# Este workflow executa o Gitleaks em cada push e pull request
-
-name: Gitleaks Security Scan
+name: Security Check Pipeline
+run-name: ${{ github.actor }} is running security checks
 
 on:
   push:
@@ -16,6 +14,12 @@ on:
     branches:
       - main
       - develop
+
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   gitleaks:
@@ -51,11 +55,25 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '⚠️ **Gitleaks detectou possíveis secrets expostas neste PR!**\n\n' +
-                    '🔐 Por favor, revise os arquivos e remova quaisquer credenciais hardcoded.\n\n' +
-                    '📋 Verifique o relatório de análise nos artefatos do workflow.\n\n' +
-                    '⚡ Dicas:\n' +
-                    '- Use variáveis de ambiente\n' +
-                    '- Configure secrets no GitHub (Settings > Secrets)\n' +
-                    '- Nunca commite arquivos .env com valores reais'
+              body: '⚠️ **Gitleaks detectou secrets expostas!** Por favor, revise o relatório anexado e remova as credenciais antes de fazer merge.'
             })
+
+  lint:
+    name: Análise Estática com ESLint
+    runs-on: ubuntu-latest
+    needs: gitleaks  # Lint só executa se Gitleaks passar
+    
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run ESLint
+        run: npm run lint
